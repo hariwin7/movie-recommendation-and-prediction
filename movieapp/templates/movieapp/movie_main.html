@@ -1,0 +1,272 @@
+ {% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  	<title>we made it</title>
+</head>
+<body>
+ <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+
+<!-- the main navigation bar starts here -->
+<header>
+<nav class="nav-extended teal darken-4">
+  <div class="nav-wrapper">
+          
+    <a href="#" class="brand-logo "><!-- <i class="material-icons logo " >movie</i> -->Eunoia</a>
+
+    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+    
+      <li class="searchbx">
+        <div class="input-field col s1  teal darken-3">
+          <input placeholder="Search" id="first_name" type="text" class="validate ">
+        </div>
+      </li>
+      <li class="searchbx">
+        <a href="#" id="search_icon"><i class="large material-icons">search</i></a>
+      </li>
+      <li><a href="register.html">Sign Up</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="#">About Us</a></li>
+     
+      
+    </ul>
+    <ul class="side-nav" id="mobile-demo">
+      <li><a href="sass.html">Sass</a></li>
+      <li><a href="badges.html">Components</a></li>
+      <li><a href="collapsible.html">JavaScript</a></li>
+    </ul>
+  </div>
+  <div class="nav-content">
+    <ul class="tabs tabs-transparent">
+      <li class="tab"><a href="#test1" class="active">Recommendation</a></li>
+      <li class="tab"><a  href="#test2">Prediction</a></li>
+      
+      <li class="tab"><a href="#test4">Test 4</a></li>
+    </ul>
+  </div>
+</nav>
+</header>
+<!--  main navigation bar ends here -->
+
+ <!-- recommendation starts here-->
+<main>
+ <div id="test1" class="col s12">
+     
+   <div class="section">
+			<h5> Rate Movies</h5>
+			    
+<div class="cont">
+
+ <div class="row">
+ {% for nam in base %}
+ 
+        <div class="col s4 l2 ">
+          <div class="card">
+            <div class="card-image">
+              <img src= {{nam}}>
+              <span class="card-title">Toy story</span>
+            </div>
+            <div class="card-content">
+              <div class="cont">
+		              Toy story
+              <input type="text" name="rat">
+              <a class="waves-effect waves-light btn  orange accent-4 btnbtn" href="#test4">Rate</a>
+              </div>
+            </div>
+         </div>
+        </div>
+{% endfor%}
+</div>
+</div>
+</div>
+
+	  <div class="divider"></div>
+
+<div class="section">
+      <h5> Recommendedations</h5>
+          
+<div class="cont">
+<div class="row">
+{% for nam in base %}
+        <div class="col s4 l2 ">
+          <div class="card">
+            <div class="card-image">
+              <img src={{nam}}>
+              <span class="card-title">Toy story</span>
+            </div>
+             <div class="card-content">
+             <div class="cont">
+                  Toy story
+            </div>
+            </div>
+          </div>
+        </div>
+{% endfor %}
+</div>
+        
+</div>
+    </div>
+
+</div>
+
+   
+        <!-- recommendation ends here -->
+        <!-- prediction form start -->
+
+<div id="test2" class="col s12">
+    <h5>Check the Movie Future<h5/>
+    <br/><br/>
+ <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+          <input placeholder="enter name" id="movie_name" type="text" class="validate">
+          <label for="Movie name">Movie name</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="Actor_1" type="text" class="validate">
+          <label for="actor_1">Actor_1</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input  id="Actor_2" type="text" class="validate">
+          <label for="Actor_2">Actor_2</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="Invest_amount" type="password" class="validate">
+          <label for="Invest_amount">Invest_amount</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="Director" type="text" class="validate">
+          <label for="Director">Director</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+
+         <button class="btn waves-effect waves-light teal darken-4" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+          
+          <!-- <div class="input-field inline ">
+            <input id="Submit" type="submit" class="validate">
+          </div> -->
+        </div> 
+      </div>
+    </form>
+
+
+
+  </div>
+</div>
+<!-- prediction form end -->
+        
+	    
+
+	    
+</main>
+
+
+<!-- footer starts here -->
+
+
+
+
+
+<footer class="page-footer teal darken-4">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text">Help Eunoia Grow</h5>
+        <p class="grey-text text-lighten-4">We hope you have enjoyed using Eunoia! If you feel Eunoia has helped you out and want to support the team,Rate us to continue development on this project and is greatly appreciated.
+
+
+        </p>
+        <a class="waves-effect waves-light btn">Rate</a>
+
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text">Follow us on</h5>
+        <ul>
+          
+         <li>
+				<a  class="grey-text text-lighten-3" href="#">Gmail</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Facebook</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Twitter</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Lined In</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+    &copy 2017  Eunoia,All Rights Reserved
+   
+    </div>
+  </div>
+</footer>
+    
+
+<style type="text/css">
+        .input-field{
+          border-radius: 6rem;
+          
+        }
+        .material-icons{
+          font-size: 40px;
+        }
+        .col{
+          float: left;
+          
+        }
+        .cont{
+              margin-left: 5%;
+              margin-right: 5%;
+
+            }
+        .searchbx{
+          width: auto;
+          height:auto;
+          margin-top: 2%;
+        }
+       
+      header{
+        display: flex;
+
+      }
+      main{
+        display: flex;
+
+      }
+    
+      
+      </style>
+
+      <script type="text/javascript">
+  $(document).ready(function(){
+    $("#search_icon").on("click",function(){
+      alert($("#first_name").val())
+    })
+  })
+
+</script>
+      
+  
+</body>
+</html>
+
+
+ 
