@@ -15,7 +15,7 @@
 
 <!-- the main navigation bar starts here -->
 <header>
-<nav class="nav-extended teal darken-4">
+<nav class="nav-extended  teal darken-4">
   <div class="nav-wrapper">
           
     <a href="#" class="brand-logo "><!-- <i class="material-icons logo " >movie</i> -->Eunoia</a>
@@ -24,7 +24,7 @@
     <ul id="nav-mobile" class="right hide-on-med-and-down">
     
       <li class="searchbx">
-        <div class="input-field col s1  teal darken-3">
+        <div class="input-field col s1 teal darken-3">
           <input placeholder="Search" id="first_name" type="text" class="validate ">
         </div>
       </li>
@@ -60,24 +60,35 @@
  <div id="test1" class="col s12">
      
    <div class="section">
-			<h5> Rate Movies</h5>
+      <h5> Rate Movies</h5>
 			    
 <div class="cont">
 
  <div class="row">
+ 
  {% for nam in base %}
  
-        <div class="col s4 l2 ">
+         <div class="col s4 l2 ">
           <div class="card">
             <div class="card-image">
-              <img src= {{nam}}>
+              <img src= "/static/movieapp/images/{{nam}}p.jpg">
               <span class="card-title">Toy story</span>
             </div>
             <div class="card-content">
               <div class="cont">
 		              Toy story
-              <input type="text" name="rat">
-              <a class="waves-effect waves-light btn  orange accent-4 btnbtn" href="#test4">Rate</a>
+                  {% if rating and id is nam %}
+                  <p>rated :{{rating}}</p>
+                  {% else %}
+                  <p>rated</p>
+                  {% endif %}
+                  
+              <form action="movie_main" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="id" value="{{nam}}">
+              <input type="text" name="rat" id={{nam}}>
+              <input type="submit" class="waves-effect waves-light btn  teal darken-4 btnbtn" value="Rate">
+              </form>
               </div>
             </div>
          </div>
@@ -90,7 +101,7 @@
 	  <div class="divider"></div>
 
 <div class="section">
-      <h5> Recommendedations</h5>
+      <h5> Recommendations</h5>
           
 <div class="cont">
 <div class="row">
@@ -98,7 +109,7 @@
         <div class="col s4 l2 ">
           <div class="card">
             <div class="card-image">
-              <img src={{nam}}>
+              <img src="/static/movieapp/images/{{nam}}p.jpg">
               <span class="card-title">Toy story</span>
             </div>
              <div class="card-content">
@@ -120,17 +131,17 @@
         <!-- recommendation ends here -->
         <!-- prediction form start -->
 
-<div id="test2" class="col s12">
+<div id="test2" class="col s12 white ">
     <h5>Check the Movie Future<h5/>
     <br/><br/>
  <div class="row">
-    <form class="col s12">
+    <form class="col s12 ">
       <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col s12">
           <input placeholder="enter name" id="movie_name" type="text" class="validate">
           <label for="Movie name">Movie name</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col  s12">
           <input id="Actor_1" type="text" class="validate">
           <label for="actor_1">Actor_1</label>
         </div>
@@ -155,7 +166,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s12">
+        <div class=" col s12 ">
 
          <button class="btn waves-effect waves-light teal darken-4" type="submit" name="action">Submit
     <i class="material-icons right">send</i>
@@ -221,6 +232,9 @@
     
 
 <style type="text/css">
+      body{
+        background-color: #eceff1;
+      }
         .input-field{
           border-radius: 6rem;
           

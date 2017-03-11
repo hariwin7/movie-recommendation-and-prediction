@@ -19,5 +19,6 @@ from movieapp import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^home/', include('movieapp.urls'))
+    url(r'^home/', include('movieapp.urls')),
+    
 ]
