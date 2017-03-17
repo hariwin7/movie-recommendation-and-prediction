@@ -17,12 +17,12 @@
 <header>
 <nav class="nav-extended  teal darken-4">
   <div class="nav-wrapper">
-          
+
     <a href="#" class="brand-logo "><!-- <i class="material-icons logo " >movie</i> -->Eunoia</a>
 
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-    
+
       <li class="searchbx">
         <div class="input-field col s1 teal darken-3">
           <input placeholder="Search" id="first_name" type="text" class="validate ">
@@ -32,10 +32,14 @@
         <a href="#" id="search_icon"><i class="large material-icons">search</i></a>
       </li>
       <li><a href="register.html">Sign Up</a></li>
+      {% if username %}
+      <li><a href="#">{{username}}</a></li>
+      {% else %}
       <li><a href="login.html">Login</a></li>
+      {% endif %}
       <li><a href="#">About Us</a></li>
-     
-      
+
+
     </ul>
     <ul class="side-nav" id="mobile-demo">
       <li><a href="sass.html">Sass</a></li>
@@ -47,7 +51,7 @@
     <ul class="tabs tabs-transparent">
       <li class="tab"><a href="#test1" class="active">Recommendation</a></li>
       <li class="tab"><a  href="#test2">Prediction</a></li>
-      
+
       <li class="tab"><a href="#test4">Test 4</a></li>
     </ul>
   </div>
@@ -58,41 +62,71 @@
  <!-- recommendation starts here-->
 <main>
  <div id="test1" class="col s12">
-     
+
    <div class="section">
       <h5> Rate Movies</h5>
-			    
+
 <div class="cont">
 
  <div class="row">
- 
- {% for nam in base %}
- 
-         <div class="col s4 l2 ">
-          <div class="card">
+
+ {% for movie in mov %}
+
+         <!-- <div class="col s3 l2 ">
+          <div class="card large">
             <div class="card-image">
-              <img src= "/static/movieapp/images/{{nam}}p.jpg">
+              <img src= "/static/movieapp/images/{{movie.movieid}}p.jpg">
               <span class="card-title">Toy story</span>
             </div>
             <div class="card-content">
               <div class="cont">
-		              Toy story
+		              <div class='mname'>
+                      {{movie.moviename}}
+                  </div>
                   {% if rating and id is nam %}
                   <p>rated :{{rating}}</p>
                   {% else %}
                   <p>rated</p>
                   {% endif %}
-                  
-              <form action="movie_main" method="post">
+
+              <form action="{% url 'movie'%}" method="post">
               {% csrf_token %}
-              <input type="hidden" name="id" value="{{nam}}">
-              <input type="text" name="rat" id={{nam}}>
+              <input type="hidden" name="id" value="{{movie.movieid}}">
+              <input type="text" name="rat" id={{movie.movieid}}>
               <input type="submit" class="waves-effect waves-light btn  teal darken-4 btnbtn" value="Rate">
               </form>
               </div>
             </div>
          </div>
+        </div> -->
+        <div class="col s12 m7 l4">
+    <h2 class="header"></h2>
+    <div class="card horizontal">
+      <div class="card-image ">
+        <a href="/static/movieapp/images/{{movie.movieid}}p.jpg">
+          <img src="/static/movieapp/images/{{movie.movieid}}p.jpg">
+        </a>
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <!-- <p>I am a very simple card. I am good at containing small bits of information.</p> -->
+          <b>{{movie.moviename}}</b>
+          {% if rating and id == movie.movieid %}
+          <p>rated :{{rating}}</p>
+          {% endif %}
+          <!-- genre:{{movie.genre}} -->
         </div>
+        <div class="card-action">
+          <form action="{% url 'movie'%}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="id" value={{movie.movieid}}>
+          <input type="text" name="rat" >
+          <input type="submit" class="waves-effect waves-light btn  teal darken-4 btnbtn" value="Rate">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endfor%}
 </div>
 </div>
@@ -102,7 +136,7 @@
 
 <div class="section">
       <h5> Recommendations</h5>
-          
+
 <div class="cont">
 <div class="row">
 {% for nam in base %}
@@ -121,13 +155,13 @@
         </div>
 {% endfor %}
 </div>
-        
+
 </div>
     </div>
 
 </div>
 
-   
+
         <!-- recommendation ends here -->
         <!-- prediction form start -->
 
@@ -171,11 +205,11 @@
          <button class="btn waves-effect waves-light teal darken-4" type="submit" name="action">Submit
     <i class="material-icons right">send</i>
   </button>
-          
+
           <!-- <div class="input-field inline ">
             <input id="Submit" type="submit" class="validate">
           </div> -->
-        </div> 
+        </div>
       </div>
     </form>
 
@@ -184,10 +218,10 @@
   </div>
 </div>
 <!-- prediction form end -->
-        
-	    
 
-	    
+
+
+
 </main>
 
 
@@ -212,7 +246,7 @@
       <div class="col l4 offset-l2 s12">
         <h5 class="white-text">Follow us on</h5>
         <ul>
-          
+
          <li>
 				<a  class="grey-text text-lighten-3" href="#">Gmail</a></li>
           <li><a class="grey-text text-lighten-3" href="#!">Facebook</a></li>
@@ -225,26 +259,28 @@
   <div class="footer-copyright">
     <div class="container">
     &copy 2017  Eunoia,All Rights Reserved
-   
+
     </div>
   </div>
 </footer>
-    
+
 
 <style type="text/css">
+
+
       body{
         background-color: #eceff1;
       }
         .input-field{
           border-radius: 6rem;
-          
+
         }
         .material-icons{
           font-size: 40px;
         }
         .col{
           float: left;
-          
+
         }
         .cont{
               margin-left: 5%;
@@ -256,7 +292,7 @@
           height:auto;
           margin-top: 2%;
         }
-       
+
       header{
         display: flex;
 
@@ -265,8 +301,8 @@
         display: flex;
 
       }
-    
-      
+
+
       </style>
 
       <script type="text/javascript">
@@ -277,10 +313,7 @@
   })
 
 </script>
-      
-  
+
+
 </body>
 </html>
-
-
- 
