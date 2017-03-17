@@ -57,12 +57,10 @@ def login(request):
 		user= authenticate(username=username,password=password)
 		if user is not None:
 			print "exist"
-
-
 			userdict={'username':username, 'userid':1}
 			print userdict
 			# return redirect('movie')
-			return render(request,"movieapp/movie_main.html",userdict)
+			return render(request,"movieapp/recommendation.html",userdict)
 		else:
 			print "doesnot exist"
 
@@ -75,7 +73,25 @@ def login(request):
 
 
 
+def reco(request):
+	if request.method=='POST':
+		name = request.POST['id']
+		rating = request.POST['rat']
+		print type(int(rating))
+		dat = Movie.objects.filter(movieid__lte=20)
+		for x in dat:
+			print type(x.movieid)
+		context = {'mov':dat,'rating':int(rating),'id':int(name)}
+		print "enterd if"
+		return render(request,"movieapp/recommendation.html",context)
+	else:
+		print "enterd else"
+		dat = Movie.objects.filter(movieid__lte=20)
+		context = {'mov':dat}
+		return render(request,"movieapp/recommendation.html",context)
 
+def pred(request):
+	return render(request,"movieapp/prediction.html")
 
 
 def register(request):
