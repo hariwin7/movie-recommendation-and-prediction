@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import pandas as pd
-from movieapp.models import UserProfile,Movie
+from movieapp.models import UserProfile,Movie,Ratings
 from django.contrib.auth import authenticate,login
+from django.db.models import Max
 
 # Create your views here.
 
@@ -54,7 +55,7 @@ def login(request):
 	if request.method=='POST':
 		username = request.POST['uname']
 		password = request.POST['psw']
-		user= authenticate(username=username,password=password)
+		user= UserProfile.objects.filter(username=username)
 		if user is not None:
 			print "exist"
 			userdict={'username':username, 'userid':1}
@@ -99,13 +100,19 @@ def register(request):
 		name = request.POST['uname']
 		passw = request.POST['psw']
 		passw_rpt = request.POST['psw_repeat']
+		print name,passw,passw_rpt
 		if passw==passw_rpt:
-			return redirect('login')
-			# test = UserProfile.objects.get(username=name)
-			# if test:
-			# 	print "already a user"
-			# else:
-				# user = UserProfile(userid="",username=name,password=passw)
-				# user.save()
+			test = UserProfile.objects.filter(username=name)
+			if UserProfile.objects.all():
+				maxid = UserProfile.objects.all().aggregate(Max('userid'))
+			else:
+				maxid = Ratings.objects.all().aggregate(Max('userid'))
+			if test:
+				print "already a user"
+			else:
+				print maxid['userid__max']
+				user = UserProfile(userid=maxid['userid__max']+1,username=name,password=passw)
+				user.save()
+				return redirect('login')
 
 	return render(request,"movieapp/register.html")
