@@ -55,3 +55,7 @@ form{
 main{
   background-color: #FFFFFF;
 }
+.errormsg{
+  color: 	#8B0000;
+  font-size: 15px;
+}

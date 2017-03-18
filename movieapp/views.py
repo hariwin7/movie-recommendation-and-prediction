@@ -58,12 +58,15 @@ def login(request):
 		user= UserProfile.objects.filter(username=username)
 		if user is not None:
 			print "exist"
+			request.session['uname']=user[0].username
+			request.session['userid']=user[0].userid
 			userdict={'username':username, 'userid':1}
 			print userdict
-			# return redirect('movie')
-			return render(request,"movieapp/recommendation.html",userdict)
+			return redirect('reco')
+			# return render(request,"movieapp/recommendation.html",userdict)
 		else:
 			print "doesnot exist"
+
 
 
 
@@ -75,24 +78,37 @@ def login(request):
 
 
 def reco(request):
-	if request.method=='POST':
-		name = request.POST['id']
-		rating = request.POST['rat']
-		print type(int(rating))
-		dat = Movie.objects.filter(movieid__lte=20)
-		for x in dat:
-			print type(x.movieid)
-		context = {'mov':dat,'rating':int(rating),'id':int(name)}
-		print "enterd if"
-		return render(request,"movieapp/recommendation.html",context)
+	if 'userid' in request.session:
+		print "enterd reco"
+		if request.method=='POST':
+			name = request.POST['id']
+			rating = request.POST['rat']
+			print request.session['userid'],name,rating
+			dat = Movie.objects.filter(movieid__lte=20)
+			for x in dat:
+				print type(x.movieid)
+				context = {'mov':dat,'rating':rating,'id':int(name),'username':request.session['uname'],'userid':request.session['userid']}
+				print "enterd if"
+				return render(request,"movieapp/recommendation.html",context)
+		else:
+			print "enterd else"
+			dat = Movie.objects.filter(movieid__lte=20)
+			context = {'mov':dat,'username':request.session['uname'],'userid':request.session['userid']}
+			return render(request,"movieapp/recommendation.html",context)
 	else:
-		print "enterd else"
-		dat = Movie.objects.filter(movieid__lte=20)
-		context = {'mov':dat}
-		return render(request,"movieapp/recommendation.html",context)
+		return redirect('login')
+
 
 def pred(request):
 	return render(request,"movieapp/prediction.html")
+
+def logout(request):
+	if 'userid' in request.session:
+		del request.session['userid']
+		del request.session['uname']
+		return redirect('login')
+
+
 
 
 def register(request):
@@ -108,11 +124,16 @@ def register(request):
 			else:
 				maxid = Ratings.objects.all().aggregate(Max('userid'))
 			if test:
+				message = {'msg':"Already a user please try another username"}
 				print "already a user"
+				return render(request,"movieapp/register.html",message)
 			else:
 				print maxid['userid__max']
 				user = UserProfile(userid=maxid['userid__max']+1,username=name,password=passw)
 				user.save()
 				return redirect('login')
+		else:
+			message = {'msg':"One of the passwords does not match"}
+			return render(request,"movieapp/register.html",message)
 
 	return render(request,"movieapp/register.html")

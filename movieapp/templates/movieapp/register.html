@@ -16,6 +16,9 @@
 <form action="{% url 'register'%}" method='post' >
   {% csrf_token %}
   <div class="container">
+    {% if msg%}
+    <div class="errormsg">{{msg}}</div><br>
+    {%endif%}
     <label><b>User Name</b></label>
     <input type="text" placeholder="Enter User name" name="uname" required>
 

@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^register.html$', views.register,name="register"),
     url(r'^prediction.html$', views.pred,name="pred"),
     url(r'^recommendation.html$', views.reco, name="reco"),
+    url(r'^logout.html$', views.logout, name="logout"),
 
 
 
