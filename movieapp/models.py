@@ -13,3 +13,8 @@ class Movie(models.Model):
     movieid = models.IntegerField(default=0)
     moviename = models.CharField(max_length=30 , default='')
     genre = models.CharField(max_length=30 , default='')
+
+class Ratings(models.Model):
+    userid = models.IntegerField(default=0)
+    movieid = models.IntegerField(default=0)
+    rating =  models.IntegerField(default=0)

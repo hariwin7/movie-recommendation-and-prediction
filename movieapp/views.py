@@ -95,4 +95,17 @@ def pred(request):
 
 
 def register(request):
+	if request.method=='POST':
+		name = request.POST['uname']
+		passw = request.POST['psw']
+		passw_rpt = request.POST['psw_repeat']
+		if passw==passw_rpt:
+			return redirect('login')
+			# test = UserProfile.objects.get(username=name)
+			# if test:
+			# 	print "already a user"
+			# else:
+				# user = UserProfile(userid="",username=name,password=passw)
+				# user.save()
+
 	return render(request,"movieapp/register.html")
