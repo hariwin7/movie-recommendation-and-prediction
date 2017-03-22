@@ -4,52 +4,11 @@ import pandas as pd
 from movieapp.models import UserProfile,Movie,Ratings
 from django.contrib.auth import authenticate,login
 from django.db.models import Max
+from recommender import recommend,loadmodel
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
 
 # Create your views here.
-
-def index(request):
-	# df=pd.read_csv("movies.csv")
-	# na=df[df['movieId']<19]
-	# name=["2054","63","8012","862","949","9603"]
-	# movieid=[]
-	# try:
-	#
-	# 	uname= request.POST['uname']
-	# except:
-	# 	uname=""
-	#
-	# try:
-	# 	rating = request.POST['rat']
-	# except:
-	# 	rating=""
-	# try:
-	# 	idmov = int(request.POST['id'])
-	# except:
-	# 	idmov= None
-	#
-	# for n in na['movieId']:
-	# 	movieid.append(int(n))
-	# print request.POST
-	#
-	#
-	# print type(idmov)
-	# context={'base':movieid,'uname':uname,'name':name,'rating':rating,'id':idmov,'mov':df}
-	if request.method=='POST':
-		name = request.POST['id']
-		rating = request.POST['rat']
-		print type(int(rating))
-		dat = Movie.objects.filter(movieid__lte=20)
-		for x in dat:
-			print type(x.movieid)
-		context = {'mov':dat,'rating':int(rating),'id':int(name)}
-		print "enterd if"
-		return render(request,"movieapp/movie_main.html",context)
-	else:
-		print "enterd else"
-		dat = Movie.objects.filter(movieid__lte=20)
-		context = {'mov':dat}
-		return render(request,"movieapp/movie_main.html",context)
-
 
 def login(request):
 	if request.method=='POST':
@@ -79,21 +38,57 @@ def login(request):
 
 def reco(request):
 	if 'userid' in request.session:
+		onlyonce=0
+		reco=[]
+		disjoint_movies = []
+
+		glob_userid = request.session['userid']
+		print "userid",glob_userid
+		dat = Movie.objects.all().order_by("-movieid")
+		val = Ratings.objects.filter(userid=glob_userid)
+		uniq_rated_movieids = set(x.movieid for x in val)
+		disjoint_movies=[x for x in dat if x.movieid not in uniq_rated_movieids]
+		paginator = Paginator(disjoint_movies, 9)
+		page = request.GET.get('page')
+		try:
+			contacts = paginator.page(page)
+		except PageNotAnInteger:
+		    # If page is not an integer, deliver first page.
+		    contacts = paginator.page(1)
+		except EmptyPage:
+		    # If page is out of range (e.g. 9999), deliver last page of results.
+		    contacts = paginator.page(paginator.num_pages)
 		print "enterd reco"
 		if request.method=='POST':
 			name = request.POST['id']
 			rating = request.POST['rat']
 			print request.session['userid'],name,rating
-			dat = Movie.objects.filter(movieid__lte=20)
-			for x in dat:
-				print type(x.movieid)
-				context = {'mov':dat,'rating':rating,'id':int(name),'username':request.session['uname'],'userid':request.session['userid']}
-				print "enterd if"
-				return render(request,"movieapp/recommendation.html",context)
+			if int(rating)<=5:
+				rat = Ratings.objects.filter(userid=glob_userid,movieid=int(name))
+				if not rat:
+					rate = Ratings(userid=glob_userid,movieid=int(name),rating=int(rating))
+					rate.save()
+					recomended = recommend(glob_userid)
+					for x in recomended:
+						reco.append(x['movieid'])
+					recdat = Movie.objects.filter(movieid__in=reco)
+			context = {'mov':contacts,'rating':rating,'id':int(name),'username':request.session['uname'],'userid':glob_userid,'contacts':contacts,'recommended':recdat}
+			print "enterd if"
+			return render(request,"movieapp/recommendation.html",context)
 		else:
 			print "enterd else"
-			dat = Movie.objects.filter(movieid__lte=20)
-			context = {'mov':dat,'username':request.session['uname'],'userid':request.session['userid']}
+			if onlyonce == 1:
+				recomended = recommend(glob_userid)
+				for x in recomended:
+					reco.append(x['movieid'])
+			else:
+				recomended = loadmodel(glob_userid)
+				for x in recomended:
+					reco.append(x['movieid'])
+			recdat = Movie.objects.filter(movieid__in=reco)
+			print recdat
+
+			context = {'contacts':contacts,'mov':contacts,'username':request.session['uname'],'userid':glob_userid,'recommended':recdat}
 			return render(request,"movieapp/recommendation.html",context)
 	else:
 		return redirect('login')
@@ -107,9 +102,6 @@ def logout(request):
 		del request.session['userid']
 		del request.session['uname']
 		return redirect('login')
-
-
-
 
 def register(request):
 	if request.method=='POST':
