@@ -14,10 +14,10 @@
  {% for movie in mov %}
  <div class="col s12 m7 l4">
     <h2 class="header"></h2>
-    <div class="card horizontal totsize">
-      <div class="card-image cardsize">
+    <div class="card horizontal ">
+      <div class="card-image ">
         <a href="/static/movieapp/poster/{{movie.movieid}}p.jpg">
-          <img src="/static/movieapp/poster/{{movie.movieid}}p.jpg" alt={{movie.moviename}}>
+          <img src="/static/movieapp/poster/{{movie.movieid}}p.jpg" alt="{{movie.moviename}}">
         </a>
       </div>
       <div class="card-stacked">
@@ -50,7 +50,7 @@
   <div class="pagination">
       <span class="step-links">
           {% if contacts.has_previous %}
-              <a href="?page={{ contacts.previous_page_number }}">previous</a>
+              <a href="?page={{ contacts.previous_page_number }}" class="waves-effect waves-light btn  teal darken-4 btnbtn">previous</a>
           {% endif %}
 
           <span class="current">
@@ -58,7 +58,7 @@
           </span>
 
           {% if contacts.has_next %}
-              <a href="?page={{ contacts.next_page_number }}">next</a>
+              <a href="?page={{ contacts.next_page_number }}" class="waves-effect waves-light btn  teal darken-4 btnbtn">next</a>
           {% endif %}
       </span>
   </div>

@@ -1,9 +1,12 @@
-/*.cardsize{
-  width: 500px;
-  height: 750px;
+.card.horizontal.card-image{
+  max-height: 100%;
+  min-height: 100%;
 }
-.totsize
+.card.horizontal
 {
-  width: 485px;
-  height: 365px;
-}*/
+  width: 400px;
+  height: 300px;
+}
+.pagination{
+  margin-left:35%;
+}
