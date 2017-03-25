@@ -22,17 +22,12 @@ def login(request):
 			userdict={'username':username, 'userid':1}
 			print userdict
 			return redirect('reco')
-			# return render(request,"movieapp/recommendation.html",userdict)
 		else:
 			print "doesnot exist"
 
-
-
-
-		# return render(request,"movieapp/movie_main.html",{'username':'user'})
-	# if UserProfile.objects.get(username=username,password=password):
-	# 	print "exist"
 	return render(request,"movieapp/login.html")
+
+
 
 
 
