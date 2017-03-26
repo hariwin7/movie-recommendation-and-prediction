@@ -1,6 +1,22 @@
-.card.horizontal.card-image{
+.card-image{
+  width:50% !important;
+  overflow: hidden;
   max-height: 100%;
   min-height: 100%;
+}
+.card-stacked{
+  width: 50% !important;
+  overflow: hidden;
+}
+.card-image a img {
+  width: 100% !important;
+}
+.movie-genre{
+  width: 100%;
+  font-size: 13px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .card.horizontal
 {
@@ -10,3 +26,4 @@
 .pagination{
   margin-left:35%;
 }
+.
