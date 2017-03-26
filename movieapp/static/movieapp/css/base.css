@@ -1,6 +1,13 @@
 body{
   background-color: #eceff1;
+  /*background: url("../collage.png");*/
 }
+/*.navblur{
+  background: url("../1.png");
+  background-repeat: no-repeat;
+  background-size: 100% 300%;
+
+}*/
   .input-field{
     border-radius: 6rem;
 

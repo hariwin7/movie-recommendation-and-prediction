@@ -26,7 +26,7 @@
           {% if rating and id == movie.movieid %}
           <h6>rated :{{rating}}</h6>
           {% endif %}
-          <!-- <span>{{movie.genre}}</span> -->
+          <small>{{movie.genre}}</small>
         </div>
         <div class="card-action">
           <form action="{% url 'reco'%}" method="post">
