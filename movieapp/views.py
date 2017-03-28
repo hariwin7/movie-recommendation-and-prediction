@@ -1,12 +1,14 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import pandas as pd
-from movieapp.models import UserProfile,Movie,Ratings
+from movieapp.models import UserProfile,Movie,Ratings,Director,Actorone,Actortwo,Actorthree
 from django.contrib.auth import authenticate,login
 from django.db.models import Max
 from recommender import recommend,loadmodel
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
+import pickle
+from collections import OrderedDict
 
 # Create your views here.
 
@@ -26,10 +28,6 @@ def login(request):
 			print "doesnot exist"
 
 	return render(request,"movieapp/login.html")
-
-
-
-
 
 def reco(request):
 	if 'userid' in request.session:
@@ -90,7 +88,32 @@ def reco(request):
 
 
 def pred(request):
-	return render(request,"movieapp/prediction.html")
+	if request.method=="POST":
+		act1=request.POST['actor_one']
+		act2=request.POST['actor_two']
+		act3=request.POST['actor_three']
+		direct=request.POST['director']
+		budget = request.POST['Invest_amount']
+		moviename = request.POST['movie_name']
+		a1 = Actorone.objects.get(pk=int(act1))
+		a2 = Actortwo.objects.get(pk=int(act2))
+		a3 = Actorthree.objects.get(pk=int(act3))
+		drctr = Director.objects.get(pk=int(direct))
+		d = pd.DataFrame(OrderedDict((('bud',float(budget)),('director_avg_profit', drctr.dir_avg_profit),('director_movie_count',drctr.dir_no_movies),
+                  ('actor_1_avg_profit',a1.act_1_avg_profit),('actor_1_movie_count',a1.act_1_no_movies),('actor_2_avg_profit',a2.act_2_avg_profit),
+                  ('actor_2_movie_count',a2.act_2_no_movies),('actor_3_avg_profit',a3.act_3_avg_profit), ('actor_3_movie_count',a3.act_3_no_movies))),index=[1])
+		pick=open("prediction/prediction.pickle","rb")
+		if pick:
+			print "loaded pickle"
+			regress=pickle.load(pick)
+			print regress.predict(d)
+
+	actor1 = Actorone.objects.all()
+	actor2 = Actortwo.objects.all()
+	actor3 = Actorthree.objects.all()
+	director = Director.objects.all()
+	pred= {'actorone':actor1 , 'actortwo':actor2 ,'actorthree':actor3, 'director':director}
+	return render(request,"movieapp/prediction.html",pred)
 
 def logout(request):
 	if 'userid' in request.session:

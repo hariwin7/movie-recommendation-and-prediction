@@ -33,7 +33,7 @@
           {% csrf_token %}
           {% if id != movie.movieid %}
           <input type="hidden" name="id" value={{movie.movieid}}>
-          <input type="text" name="rat" placeholder="Your rating" >
+          <input type="text" name="rat" placeholder="Your rating" required >
           <input type="submit" class="waves-effect waves-light btn  teal darken-4 btnbtn" value="Rate">
           {% endif %}
           </form>

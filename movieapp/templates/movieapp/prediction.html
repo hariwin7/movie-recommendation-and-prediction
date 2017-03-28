@@ -7,39 +7,72 @@
 
 {%block content%}
         <!-- prediction form start -->
-<main>
+<!-- <main> -->
 <div id="test2" class="white">
-    <h5>Check the Movie Future<h5/>
-    <br/><br/>
+
  <div class="row">
-    <form class="col s12 ">
+   <h5>Check the Movie Future<h5/>
+   <br/><br/>
+    <form class="col s12 " method="post">
+      {% csrf_token %}
       <div class="row">
         <div class="input-field col s12">
-          <input placeholder="enter name" id="movie_name" type="text" class="validate">
+          <input placeholder="enter name" name="movie_name" type="text" class="validate" required>
           <label for="Movie name">Movie name</label>
         </div>
-        <div class="input-field col  s12">
-          <input id="Actor_1" type="text" class="validate">
-          <label for="actor_1">Actor_1</label>
-        </div>
+      </div>
+        <div class="row">
+   <div class="input-field col s12">
+
+   <select name="actor_one" required>
+     <option value="" disabled selected>Choose your option</option>
+      {% for act in actorone%}
+     <option value="{{act.pk}}">{{act.act_1_name}}</option>
+     {% endfor %}
+   </select>
+   <label>First billed actor</label>
+ </div>
+ </div>
+
+
+      <div class="row">
+        <div class="input-field col s12">
+        <select name="actor_two" required>
+          <option value="" disabled selected>Choose your option</option>
+          {% for act in actortwo%}
+         <option value="{{act.pk}}">{{act.act_2_name}}</option>
+         {% endfor %}
+        </select>
+        <label>Second billed acto</label>
+      </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+        <select name="actor_three" required>
+          <option value="" disabled selected>Choose your option</option>
+          {% for act in actorthree%}
+         <option value="{{act.pk}}">{{act.act_3_name}}</option>
+         {% endfor %}
+        </select>
+        <label>Third billed acto</label>
+      </div>
       </div>
 
       <div class="row">
         <div class="input-field col s12">
-          <input  id="Actor_2" type="text" class="validate">
-          <label for="Actor_2">Actor_2</label>
-        </div>
+        <select name="director" required>
+          <option value="" disabled selected>Choose your option</option>
+          {% for act in director%}
+         <option value="{{act.pk}}">{{act.dirname}}</option>
+         {% endfor %}
+        </select>
+        <label>Director</label>
+      </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="Invest_amount" type="password" class="validate">
+          <input name="Invest_amount" type="text" class="validate" required>
           <label for="Invest_amount">Invest_amount</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="Director" type="text" class="validate">
-          <label for="Director">Director</label>
         </div>
       </div>
       <div class="row">
@@ -52,6 +85,14 @@
     </form>
   </div>
 </div>
+<!-- </main> -->
 <!-- prediction form end -->
-</main>
+
+<script>
+
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+
+</script>
 {% endblock%}
