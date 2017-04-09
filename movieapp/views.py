@@ -37,7 +37,11 @@ def reco(request):
 
 		glob_userid = request.session['userid']
 		print "userid",glob_userid
+
 		dat = Movie.objects.all().order_by("-movieid")
+
+
+
 		val = Ratings.objects.filter(userid=glob_userid)
 		uniq_rated_movieids = set(x.movieid for x in val)
 		disjoint_movies=[x for x in dat if x.movieid not in uniq_rated_movieids]
@@ -80,12 +84,23 @@ def reco(request):
 					reco.append(x['movieid'])
 			recdat = Movie.objects.filter(movieid__in=reco)
 			print recdat
+			for x in contacts:
+				print x.moviename
 
 			context = {'contacts':contacts,'mov':contacts,'username':request.session['uname'],'userid':glob_userid,'recommended':recdat}
 			return render(request,"movieapp/recommendation.html",context)
 	else:
 		return redirect('login')
 
+def search(request):
+	if request.method=='GET':
+		search=request.GET.get('search')
+		print search
+		if search:
+			dat=Movie.objects.filter(moviename__contains=search)
+		
+	context={'mov':dat}
+	return render(request,"movieapp/search.html",context)
 
 def pred(request):
 	if request.method=="POST":
@@ -107,11 +122,14 @@ def pred(request):
 			print "loaded pickle"
 			regress=pickle.load(pick)
 			print regress.predict(d)
+			result = {'moviename':moviename,'profit':regress.predict(d)}
+			# return render(request,"movieapp/predresult.html",result)
+			return HttpResponse(regress.predict(d))
 
-	actor1 = Actorone.objects.all()
-	actor2 = Actortwo.objects.all()
-	actor3 = Actorthree.objects.all()
-	director = Director.objects.all()
+	actor1 = Actorone.objects.order_by('act_1_name')
+	actor2 = Actortwo.objects.order_by('act_2_name')
+	actor3 = Actorthree.objects.order_by('act_3_name')
+	director = Director.objects.order_by('dirname')
 	pred= {'actorone':actor1 , 'actortwo':actor2 ,'actorthree':actor3, 'director':director}
 	return render(request,"movieapp/prediction.html",pred)
 

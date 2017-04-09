@@ -26,13 +26,15 @@
    <ul id="nav-mobile" class="right hide-on-med-and-down">
 
      <li class="searchbx">
+       <!-- <form action="" method="get"> -->
        <div class="input-field col s1  teal darken-3 ">
          <input placeholder="Search" id="first_name" type="text" class="validate ">
        </div>
      </li>
      <li class="searchbx">
-       <a href="#" id="search_icon"><i class="large material-icons">search</i></a>
+       <a href="#" id="search_icon" ><i class="large material-icons">search</i></a>
      </li>
+   <!-- </form> -->
      <li><a href="{% url 'reco'%}" class="active  input-field">Home</a></li>
      {% if username %}
      <li><a href="#">{{username}}</a></li>
@@ -95,10 +97,31 @@
 
       <script type="text/javascript">
   $(document).ready(function(){
-    $("#search_icon").on("click",function(){
-      alert($("#first_name").val())
+    $("#first_name").keypress(function(e){
+      // e.preventDefault();
+      var key =e.which;
+      if(key==13)
+      {
+      // alert($("#first_name").val());
+      $.ajax({
+        type:'GET',
+        url:'search.html',
+        data:{
+          search:$("#first_name").val(),
+        },
+        success:function(response){
+          // alert("sucess");
+          $("#search").html(response);
+        }
+      })
+    }
+//       $(document).ajaxStop(function(){
+//     window.location.reload();
+// });
+
     })
-  })
+  });
+
 
 </script>
 
