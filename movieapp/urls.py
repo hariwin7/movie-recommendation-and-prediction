@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^logout.html$', views.logout, name="logout"),
     url(r'^search.html$', views.search, name="search"),
     url(r'^ratedmovies.html$', views.rated, name="ratedmovies"),
-
+    url(r'^predictionresult.html$', views.predresult, name="predresult"),
 
 
 ]

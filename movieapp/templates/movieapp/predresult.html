@@ -1,0 +1,51 @@
+<!-- login form used for users to login -->
+{% extends 'movieapp/base.html'%}
+{% load static %}
+
+{%block css%}
+<!-- <link href="{% static 'movieapp/css/predresult.css' %}" rel="stylesheet"> -->
+{% endblock %}
+
+{%block content%}
+<main>
+<!-- predictio result display starts here -->
+<p class="z-depth-5">
+<div class="container  " >
+
+  <div class="row">
+        <div class="col s12 " >
+        <p class="z-depth-5">
+          <div class="card   #ef6c00 orange darken-3" style="border:1px solid red" style= "border-radius: 6rem;">
+            <div class="card-content white-text" >
+              <span class="card-title"><h5><b>The future of the movie " {{mname}} "</b></h5> </span>
+              <b> <p>Director : {{dr}}</p><br/>
+              <p>Actor 1 : {{a1}}</p><br/>
+              <p>Actor 2:{{a2}}</p><br/>
+              <p>Actor 3: {{a3}}</p><br/>
+              <p>Budget :{{bd}} $</p><br/>
+              {%if rs < 0 %}
+              <p>Predicted Loss: {{rs}} %</p>
+              {%elif rs > 0 %}
+              <p>Predicted Profit: {{rs}} %</p>
+              {% elif rs == 0%}
+              <p>This project is not Profitable</p>
+              {%endif%}
+              </b>
+              <!-- <p>The predicted Profit : {{rs}}</p> -->
+            </div>
+           <!--  <div class="card-action">
+              <a href="#">This is a link</a>
+              <a href="#">This is a link</a>
+            </div> -->
+          </div>
+          </p>
+        </div>
+  </div>
+</div>
+</p>
+
+
+
+<!-- prediction result display ends here -->
+</main>
+{%endblock%}

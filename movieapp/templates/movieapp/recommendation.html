@@ -25,7 +25,7 @@
         <div class="card-content">
           <b>{{movie.moviename}}</b>
           {% if rating and id == movie.movieid %}
-          <h6>rated :{{rating}}</h6>
+        <b>  <h6>Rated :{{rating}}/5</h6></b>
           {% endif %}
           <div class="movie-genre">{{movie.genre}}</div>
         </div>
@@ -34,7 +34,7 @@
           {% csrf_token %}
           {% if id != movie.movieid %}
           <input type="hidden" name="id" value={{movie.movieid}}>
-          <input type="text" name="rat" placeholder="Your rating" required >
+          <input type="text" name="rat" placeholder="Rate out of 5" required >
           <input type="submit" class="waves-effect waves-light btn  teal darken-4 btnbtn" value="Rate">
           {% endif %}
           </form>

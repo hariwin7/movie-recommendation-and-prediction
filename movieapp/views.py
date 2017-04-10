@@ -118,6 +118,15 @@ def rated(request):
 		return render(request,"movieapp/ratedmovies.html",ratdict)
 
 def pred(request):
+	actor1 = Actorone.objects.order_by('act_1_name')
+	actor2 = Actortwo.objects.order_by('act_2_name')
+	actor3 = Actorthree.objects.order_by('act_3_name')
+	director = Director.objects.order_by('dirname')
+	pred= {'actorone':actor1 , 'actortwo':actor2 ,'actorthree':actor3, 'director':director}
+	return render(request,"movieapp/prediction.html",pred)
+
+def predresult(request):
+	result=0
 	if request.method=="POST":
 		act1=request.POST['actor_one']
 		act2=request.POST['actor_two']
@@ -137,16 +146,10 @@ def pred(request):
 			print "loaded pickle"
 			regress=pickle.load(pick)
 			print regress.predict(d)
-			result = {'moviename':moviename,'profit':regress.predict(d)}
-			# return render(request,"movieapp/predresult.html",result)
-			return HttpResponse(regress.predict(d))
-
-	actor1 = Actorone.objects.order_by('act_1_name')
-	actor2 = Actortwo.objects.order_by('act_2_name')
-	actor3 = Actorthree.objects.order_by('act_3_name')
-	director = Director.objects.order_by('dirname')
-	pred= {'actorone':actor1 , 'actortwo':actor2 ,'actorthree':actor3, 'director':director}
-	return render(request,"movieapp/prediction.html",pred)
+			result = regress.predict(d)
+	pr=result[0] * 100
+	resultdict={'a1':a1.act_1_name,'a2':a2.act_2_name,'a3':a3.act_3_name,'dr':drctr.dirname,'mname':moviename,'bd':budget,'rs':pr}
+	return render(request,"movieapp/predresult.html",resultdict)
 
 def logout(request):
 	if 'userid' in request.session:

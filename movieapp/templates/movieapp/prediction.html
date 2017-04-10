@@ -13,7 +13,7 @@
  <div class="row">
    <h5>Check the Movie Future<h5/>
    <br/><br/>
-    <form class="col s12 " method="post">
+    <form class="col s12 " method="post" action="{% url 'predresult'%}">
       {% csrf_token %}
       <div class="row">
         <div class="input-field col s12">
