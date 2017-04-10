@@ -37,7 +37,7 @@
    <!-- </form> -->
      <li><a href="{% url 'reco'%}" class="active  input-field">Home</a></li>
      {% if username %}
-     <li><a href="#">{{username}}</a></li>
+     <li><a href="{% url 'ratedmovies' %}">{{username}}</a></li>
      <li><a href="{% url 'logout' %}">Logout</a></li>
      {% else %}
      <li><a href="login.html">Login</a></li>

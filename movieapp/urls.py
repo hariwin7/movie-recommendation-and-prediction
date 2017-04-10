@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^recommendation.html$', views.reco, name="reco"),
     url(r'^logout.html$', views.logout, name="logout"),
     url(r'^search.html$', views.search, name="search"),
+    url(r'^ratedmovies.html$', views.rated, name="ratedmovies"),
 
 
 

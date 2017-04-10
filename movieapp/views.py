@@ -98,9 +98,24 @@ def search(request):
 		print search
 		if search:
 			dat=Movie.objects.filter(moviename__contains=search)
-		
+
 	context={'mov':dat}
 	return render(request,"movieapp/search.html",context)
+def rated(request):
+	if 'userid' in request.session:
+		c=[]
+		z=[]
+		userid = request.session['userid']
+		rated = Ratings.objects.filter(userid=userid)
+		print rated
+		for x in rated:	#for getting rated movie ids
+			c.append(x.movieid)
+		movie = Movie.objects.filter(movieid__in=c)
+		for x,y in zip(rated,movie): #for creating a list of tuple of rated and movie objects
+			z.append((x,y))
+
+		ratdict = {'mov':z,'username':request.session['uname']}
+		return render(request,"movieapp/ratedmovies.html",ratdict)
 
 def pred(request):
 	if request.method=="POST":

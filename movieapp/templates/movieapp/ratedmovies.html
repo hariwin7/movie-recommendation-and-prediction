@@ -1,0 +1,47 @@
+{% extends 'movieapp/base.html'%}
+{% load static %}
+{%block css%}
+<link href="{% static 'movieapp/css/recommendation.css' %}" rel="stylesheet">
+{% endblock %}
+
+ {%block content%}
+<main>
+
+   <div id='search'>
+   <div class="section" >
+      <h5> Rate Movies</h5>
+<div class="cont">
+ <div class="row" >
+ {% for movie in mov %}
+
+ <div class="col s12 m7 l4">
+    <h2 class="header"></h2>
+    <div class="card horizontal ">
+      <div class="card-image">
+        <a href="/static/movieapp/poster/{{movie.1.movieid}}p.jpg">
+          <img src="/static/movieapp/poster/{{movie.1.movieid}}p.jpg" alt="{{movie.1.moviename}}">
+        </a>
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <b>{{movie.1.moviename}}</b>
+          <div class="movie-genre">{{movie.1.genre}}</div>
+          <h6>rated :{{movie.0.rating}}/5</h6>
+
+        </div>
+        <div class="card-action">
+          <form action="{% url 'reco'%}" method="post">
+          {% csrf_token %}
+          {{movie.rating}}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor%}
+  </div>
+ </div>
+</div>
+
+</main>
+{% endblock %}
