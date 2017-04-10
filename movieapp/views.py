@@ -13,6 +13,9 @@ from collections import OrderedDict
 # Create your views here.
 
 def login(request):
+	if 'userid' in request.session:
+		del request.session['userid']
+		del request.session['uname']
 	if request.method=='POST':
 		username = request.POST['uname']
 		password = request.POST['psw']
