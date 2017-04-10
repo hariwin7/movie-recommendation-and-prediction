@@ -17,7 +17,7 @@ def login(request):
 		username = request.POST['uname']
 		password = request.POST['psw']
 		user= UserProfile.objects.filter(username=username)
-		if user is not None:
+		if user is not None and password==user[0].password:
 			print "exist"
 			request.session['uname']=user[0].username
 			request.session['userid']=user[0].userid
@@ -25,7 +25,8 @@ def login(request):
 			print userdict
 			return redirect('reco')
 		else:
-			print "doesnot exist"
+			errordict = {'error':"username or password incorrect"}
+			return render(request,"movieapp/login.html",errordict)
 
 	return render(request,"movieapp/login.html")
 

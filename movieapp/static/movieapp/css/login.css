@@ -66,3 +66,7 @@ main{
 .flexbx{
   display: block;
 }
+.errormsg{
+  color: 	#8B0000;
+  font-size: 15px;
+}

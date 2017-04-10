@@ -19,6 +19,9 @@
   </div>
 
   <div class="container">
+		{% if error%}
+		<div class="errormsg">{{error}}</div><br>
+		{% endif %}
     <label><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
     <label><b>Password</b></label>
